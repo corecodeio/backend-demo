@@ -1,6 +1,15 @@
 const app = require("./app");
-const config = require("./config");
+const { serverConfig } = require("./config");
+const { db } = require("./sequelize");
 
-app.listen(config.port, () => {
-  console.log(`Server is running on port ${config.port}`);
-});
+db.sync()
+  .then(() => {
+    console.log("Database connected");
+    app.listen(serverConfig.port, () => {
+      console.log(`Server is running on port ${serverConfig.port}`);
+    });
+  })
+  .catch((err) => {
+    console.log("server error:", err);
+    process.exit(1);
+  });

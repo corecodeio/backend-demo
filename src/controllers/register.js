@@ -1,7 +1,7 @@
-const { createUser } = require("../db");
 const validator = require("validator");
+const { User } = require("../sequelize");
 
-const register = (req, res) => {
+const register = async(req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -23,10 +23,14 @@ const register = (req, res) => {
           "Please enter a valid password. Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one symbol.",
       });
     }
-    const newUser = createUser(email, password);
-    if (!newUser) {
+    const searchEmail = await User.findOne({ where: { email } });
+    if (searchEmail) {
       return res.json({ message: "User already exists" });
     }
+    const newUser = await User.create({
+      email,
+      password,
+    });
     res.json({ message: "User created successfully", user: newUser });
   } catch (error) {
     console.log(error);

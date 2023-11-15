@@ -5,13 +5,12 @@ const register = require("./controllers/register");
 const getUser = require("./controllers/getUser");
 const login = require("./controllers/login");
 const updateUser = require("./controllers/updateUser");
-const { getAllUsers } = require("./db");
+const getAllUsers = require("./controllers/getAllUsers");
+
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.get("/users", (req, res) => {
-  res.json({ users: getAllUsers() });
-});
+app.get("/users", getAllUsers);
 //register
 app.post("/register", register);
 //login
