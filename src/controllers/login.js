@@ -32,12 +32,12 @@ const login = async (req, res) => {
     if (password !== searchEmail.password) {
       return res.json({ message: "Incorrect password" });
     }
-    const token = jwt.sign({ id: searchEmail.id }, jwtConfig.secretKey,{
-        expiresIn: jwtConfig.expiresIn,
+    const token = jwt.sign({ id: searchEmail.id }, jwtConfig.secretKey, {
+      expiresIn: jwtConfig.expiresIn,
     });
     res
       .status(200)
-      .json({ message: "Logged in successfully", token });
+      .json({ ok: true, message: "Logged in successfully", token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

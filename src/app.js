@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
 const register = require("./controllers/register");
 const getUser = require("./controllers/getUser");
@@ -10,6 +11,7 @@ const auth = require("./middlewares/auth");
 
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cors());
 
 app.get("/users", getAllUsers);
 //register
